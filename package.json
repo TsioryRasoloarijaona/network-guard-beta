@@ -1,0 +1,36 @@
+{
+  "name": "network-guard",
+  "version": "1.0.0",
+  "main": "main.js",
+  "author": "tsiory Rasoloarijaona",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win nsis",
+    "build:win:portable": "electron-builder --win portable"
+  },
+  "build": {
+    "appId": "com.waitapp.networkguard",
+    "asar": true,
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": true
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false
+    }
+  },
+  "devDependencies": {
+    "electron": "^37.2.6",
+    "electron-builder": "^26.0.12"
+  }
+}

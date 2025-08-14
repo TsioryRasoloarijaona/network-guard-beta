@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Network Guard</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        background: #1a1a1a;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        padding: 10px;
+      }
+
+      /* --- Ligne de formulaire --- */
+      .form-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 12px;
+        flex-wrap: wrap; /* passe à la ligne si la fenêtre est étroite */
+        margin-bottom: 12px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        min-width: 200px;
+      }
+      .field label {
+        font-size: 12px;
+        color: #bdbdbd;
+        margin: 0 0 6px;
+        letter-spacing: 0.2px;
+      }
+
+      /* --- Entrées et select uniformisés --- */
+      .ctrl {
+        background: #1b1b1b;
+        color: #fff;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid #4b4b4b;
+        outline: none;
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+      .ctrl:focus {
+        border-color: #ffffff;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+      }
+      input.ctrl::placeholder {
+        color: #8a8a8a;
+      }
+
+      /* --- Select relooké avec flèche custom --- */
+      .select-wrap {
+        position: relative;
+      }
+      .select-wrap select.ctrl {
+        appearance: none;
+        -webkit-appearance: none;
+        padding-right: 36px; /* place pour la flèche */
+        cursor: pointer;
+      }
+      /* flèche */
+      .select-wrap::after {
+        content: "▾";
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        font-size: 12px;
+        pointer-events: none;
+        opacity: 0.8;
+      }
+
+      /* --- Style des options (Chromium/Electron) --- */
+      select option {
+        background: #111;
+        color: #fff;
+      }
+      /* survol / sélection dans la liste ouverte */
+      select option:hover,
+      select option:checked {
+        background: #000 !important;
+        color: #fff;
+      }
+
+      /* Bouton */
+      button {
+        background: #fff;
+        color: #000;
+        font-weight: bolder;
+        cursor: pointer;
+        padding: 9px 14px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+      }
+      button:hover {
+        filter: brightness(0.95);
+      }
+
+      /* --- blocs existants --- */
+      .interface-section {
+        margin-top: 20px;
+        padding: 10px;
+        background: #222;
+        border-radius: 10px;
+      }
+      .interface-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #555;
+        padding-bottom: 5px;
+      }
+      .host-item {
+        border: 1px solid #fff;
+        border-radius: 12px;
+        padding: 8px 12px;
+        margin: 8px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #111;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Ligne: 1 select + 2 inputs -->
+    <div class="form-row">
+      <div class="field select-wrap">
+        <label for="interfaces">Interface</label>
+        <select id="interfaces" class="ctrl">
+          <option value="" disabled selected>Choisir…</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="host">Host/IP</label>
+        <input type="text" id="host" class="ctrl" placeholder="ex: 8.8.8.8" />
+      </div>
+
+      <div class="field">
+        <label for="name">name</label>
+        <input type="text" id="name" class="ctrl" placeholder="ex: Internet" />
+      </div>
+      <button id="addBtn">ping</button>
+    </div>
+
+    <div id="container"></div>
+
+    <script src="renderer.js"></script>
+    <script src="sectionCreation.js"></script>
+    <script src="tableBuilder.js"></script>
+  </body>
+</html>
