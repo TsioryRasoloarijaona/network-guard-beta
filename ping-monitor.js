@@ -1,19 +1,15 @@
 const { spawn } = require("child_process");
-
 const isWin = process.platform === "win32";
-
-const timers = Object.create(null); 
+const timers = Object.create(null);
 const inflight = Object.create(null);
-const states = Object.create(null); 
+const states = Object.create(null);
 const lastOutput = Object.create(null);
-
 
 function pingOnce(host, sourceIp) {
   return new Promise((resolve) => {
     const args = isWin ? ["-n", "1", "-w", "1000"] : ["-c", "1", "-W", "1"];
 
     if (sourceIp) {
-
       if (isWin) args.push("-S", sourceIp);
       else args.push("-I", sourceIp);
     }
@@ -32,7 +28,6 @@ function pingOnce(host, sourceIp) {
     child.on("close", (code) => {
       const text = (out || err || "").toString();
 
-
       let alive = false;
       if (isWin) {
         alive =
@@ -46,7 +41,6 @@ function pingOnce(host, sourceIp) {
     });
   });
 }
-
 function startPingLoop(
   host,
   interfaceName,
@@ -55,14 +49,11 @@ function startPingLoop(
   onResult,
   periodMs = 2000
 ) {
-
   if (!states[rowId]) states[rowId] = { status: "paused", ok: 0, fail: 0 };
 
-  // annule ancienne boucle si existante
   if (timers[rowId]) clearTimeout(timers[rowId]);
 
   const tick = async () => {
-
     if (inflight[rowId]) {
       timers[rowId] = setTimeout(tick, 150);
       return;
@@ -119,7 +110,16 @@ function stopPingLoop(rowId) {
     delete timers[rowId];
   }
   delete inflight[rowId];
-
 }
 
-module.exports = { startPingLoop, stopPingLoop };
+function stopAll() {
+  Object.keys(timers).forEach((rowId) => {
+    if (timers[rowId]) {
+      clearTimeout(timers[rowId]);
+      delete timers[rowId];
+    }
+    delete inflight[rowId];
+  });
+}
+
+module.exports = { startPingLoop, stopPingLoop, stopAll };

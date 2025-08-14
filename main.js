@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const os = require("os");
-const { startPingLoop, stopPingLoop } = require("./ping-monitor");
+const { startPingLoop, stopPingLoop, stopAll } = require("./ping-monitor");
 
 function showNativeDialog(event, options) {
   if (process.platform !== "linux" && process.platform !== "win32") return;
@@ -54,6 +54,15 @@ ipcMain.on("request-interfaces", (event) => {
     }
   }
   event.sender.send("response-interfaces", interfaces);
+});
+
+app.on("window-all-closed", () => {
+  stopAll();
+  if (process.platform !== "darwin") app.quit();
+});
+
+app.on("before-quit", () => {
+  stopAll();
 });
 
 ipcMain.on("add-row", (event, data) => {
