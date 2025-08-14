@@ -29,7 +29,7 @@ function requestRow() {
   const select = document.getElementById("interfaces").value;
   const interfaceInfo = JSON.parse(select);
   const { name, address } = interfaceInfo;
-  const id = `${name}${host}`;
+  const id = `${name}${address}${host}`;
 
   if (!host || !pingName || !select) {
     ipcRenderer.send("fields-required");
@@ -39,7 +39,7 @@ function requestRow() {
     ipcRenderer.send("error", { name, host });
     return;
   }
-  ipcRenderer.send("add-row", { host, pingName, name, address });
+  ipcRenderer.send("add-row", { host, pingName, name, address ,id});
 }
 
 ipcRenderer.on("response-interfaces", (event, interfaces) => {
@@ -57,8 +57,8 @@ ipcRenderer.on("response-interfaces", (event, interfaces) => {
 
 ipcRenderer.on("response-row", (event, row) => {
   const { ipTarget, pingName, interfaceName, status, address } = row;
-  createRow(interfaceName, ipTarget, status, pingName);
-  let id = `${interfaceName}${ipTarget}`;
+  createRow(interfaceName, ipTarget, status, pingName , address);
+  let id = `${interfaceName}${address}${ipTarget}`;
   ids.push(id);
   event.sender.send("start-ping", { id, ipTarget, address, interfaceName });
 });

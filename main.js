@@ -66,13 +66,14 @@ app.on("before-quit", () => {
 });
 
 ipcMain.on("add-row", (event, data) => {
-  const { host, pingName, name, address } = data;
+  const { host, pingName, name, address ,id } = data;
+  console.log(id)
   event.sender.send("response-row", {
     ipTarget: host,
     pingName,
     interfaceName: name,
     status: "paused",
-    address,
+    address
   });
 });
 

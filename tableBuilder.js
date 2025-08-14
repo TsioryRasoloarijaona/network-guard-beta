@@ -23,7 +23,7 @@ const IconPlay = `<svg viewBox="0 0 24 24" fill="currentColor"
     <polygon points="8,5 19,12 8,19" />
   </svg>`;
 
-function createRow(name, ip, status, pingName) {
+function createRow(name, ip, status, pingName , address) {
   const section = document.getElementById(name);
   const statusClass = `status-${status}`;
   const rowClass = status === "active" || status === "paused" ? "" : "row-down";
@@ -40,7 +40,7 @@ function createRow(name, ip, status, pingName) {
   if (status === "paused") statusIcon = createIcon(IconPause);
 
   const tr = document.createElement("tr");
-  const id = `${name}${ip}`;
+  const id = `${name}${address}${ip}`;
   if (rowClass) tr.classList.add(rowClass);
   tr.id = id;
 
