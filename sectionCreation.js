@@ -9,7 +9,7 @@ function createSection(interfaces) {
     div.appendChild(h3);
     const table = document.createElement("table");
     const tbody = document.createElement("tbody");
-    tbody.id = name;
+    tbody.id = `${name}${address}`;
     table.appendChild(tbody);
     div.appendChild(table);
     container.appendChild(div);

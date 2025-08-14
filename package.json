@@ -1,12 +1,11 @@
 {
-  "name": "network-guard",
-  "version": "1.0.0",
+  "name": "network-monitor",
+  "version": "1.0.2",
   "main": "main.js",
   "author": "tsiory Rasoloarijaona",
   "scripts": {
     "start": "electron .",
-    "build:win": "electron-builder --win nsis",
-    "build:win:portable": "electron-builder --win portable"
+    "build:win:portable": "electron-builder --win portable --x64"
   },
   "build": {
     "appId": "com.waitapp.networkguard",
@@ -15,18 +14,13 @@
       "buildResources": "build",
       "output": "dist"
     },
+    "artifactName": "${productName}-${version}-portable.exe",
     "win": {
       "target": [
-        "nsis",
-        "portable"
+        { "target": "portable", "arch": ["x64"] }
       ],
       "icon": "build/icon.ico",
       "signAndEditExecutable": true
-    },
-    "nsis": {
-      "oneClick": true,
-      "perMachine": false,
-      "allowToChangeInstallationDirectory": false
     }
   },
   "devDependencies": {

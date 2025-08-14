@@ -24,7 +24,7 @@ const IconPlay = `<svg viewBox="0 0 24 24" fill="currentColor"
   </svg>`;
 
 function createRow(name, ip, status, pingName , address) {
-  const section = document.getElementById(name);
+  const section = document.getElementById(`${name}${address}`);
   const statusClass = `status-${status}`;
   const rowClass = status === "active" || status === "paused" ? "" : "row-down";
 
