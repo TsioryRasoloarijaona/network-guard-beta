@@ -65,3 +65,11 @@ svg {
     font-weight: bolder;
     border-radius: 15px;
 }
+
+h5 {
+    background-color: aliceblue;
+    color: black;
+    padding: 2px;
+    border-radius: 4px;
+    width: fit-content;
+}

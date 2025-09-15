@@ -1,11 +1,11 @@
 {
-  "name": "network-monitor",
-  "version": "1.0.2",
+  "name": "network-monitor-installer",
+  "version": "1.1.0",
   "main": "main.js",
   "author": "tsiory Rasoloarijaona",
   "scripts": {
     "start": "electron .",
-    "build:win:portable": "electron-builder --win portable --x64"
+    "build:win": "electron-builder --win portable --x64"
   },
   "build": {
     "appId": "com.waitapp.networkguard",

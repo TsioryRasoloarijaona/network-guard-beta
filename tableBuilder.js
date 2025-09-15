@@ -23,7 +23,7 @@ const IconPlay = `<svg viewBox="0 0 24 24" fill="currentColor"
     <polygon points="8,5 19,12 8,19" />
   </svg>`;
 
-function createRow(name, ip, status, pingName , address) {
+function createRow(name, ip, status, pingName, address) {
   const section = document.getElementById(`${name}${address}`);
   const statusClass = `status-${status}`;
   const rowClass = status === "active" || status === "paused" ? "" : "row-down";
@@ -54,7 +54,7 @@ function createRow(name, ip, status, pingName , address) {
   const pTimer = document.createElement("p");
   pTimer.className = "timer";
   pTimer.dataset.seconds = "0";
-  pTimer.textContent = "00:00";
+  pTimer.textContent = "00:00:00:00";
   tdTimer.appendChild(pTimer);
 
   const tdStatus = document.createElement("td");
@@ -78,27 +78,16 @@ function createRow(name, ip, status, pingName , address) {
 }
 
 function formatElapsed(sec) {
+  if (!Number.isFinite(sec)) sec = 0;
+  sec = Math.max(0, Math.floor(sec));
   const days = Math.floor(sec / 86400);
   const hours = Math.floor((sec % 86400) / 3600);
   const minutes = Math.floor((sec % 3600) / 60);
   const seconds = sec % 60;
-
-  if (days > 0) {
-    return `${String(days).padStart(2, "0")}:${String(hours).padStart(
-      2,
-      "0"
-    )}:${String(minutes).padStart(2, "0")}`;
-  } else if (hours > 0) {
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-      2,
-      "0"
-    )}:${String(seconds).padStart(2, "0")}`;
-  } else {
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-      2,
-      "0"
-    )}`;
-  }
+  return `${String(days).padStart(2, "0")}:${String(hours).padStart(
+    2,
+    "0"
+  )}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
 setInterval(() => {
@@ -157,7 +146,7 @@ function updateStatus(idRow, newStatus) {
   const pTimer = tr.querySelector("p.timer");
   if (pTimer) {
     pTimer.dataset.seconds = "0";
-    pTimer.textContent = "00:00";
+    pTimer.textContent = "00:00:00:00";
   }
 }
 
